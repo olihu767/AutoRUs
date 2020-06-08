@@ -23,7 +23,7 @@ After analyzing our data, the results presents the following:
 3.  We see that the p-value of Lot 3 is less than our common 0.05 percent as opposed Lot 1 and Lot 2, who have a p-value of 1 and 0.6 respectively. This mean that Lot 3 is statistically significant.
 4. We recommend further looking at how the cost of the vehicle, fuel type and fuel efficiency correlates with customer satisfaction and review of competing vehicles to our MechaCar prototype.
 
-**Note:** For more information regarding the analysis, please look at [MechaCarWriteUp.txt](https://github.com/Helen-Ly/AutoRUs/blob/master/MechaCarWriteUp.txt).
+**Note:** For more information regarding the analysis, please look at [MechaCarWriteUp.txt](https://github.com/olihu767/AutoRUs/blob/master/MechaCarWriteUp.txt).
 
 ## Usage
 
