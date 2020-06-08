@@ -1,0 +1,175 @@
+1. ---------- MPG REGRESSION ----------
+
+> summary(lm(mpg ~ vehicle.length + vehicle.weight + spoiler.angle + ground.clearance + AWD, data = mechacar_mpg))
+
+Call:
+lm(formula = mpg ~ vehicle.length + vehicle.weight + spoiler.angle + 
+    ground.clearance + AWD, data = mechacar_mpg)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-19.4701  -4.4994  -0.0692   5.4433  18.5849 
+
+Coefficients:
+                   Estimate Std. Error t value Pr(>|t|)    
+(Intercept)      -1.040e+02  1.585e+01  -6.559 5.08e-08 ***
+vehicle.length    6.267e+00  6.553e-01   9.563 2.60e-12 ***
+vehicle.weight    1.245e-03  6.890e-04   1.807   0.0776 .  
+spoiler.angle     6.877e-02  6.653e-02   1.034   0.3069    
+ground.clearance  3.546e+00  5.412e-01   6.551 5.21e-08 ***
+AWD              -3.411e+00  2.535e+00  -1.346   0.1852    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 8.774 on 44 degrees of freedom
+Multiple R-squared:  0.7149,	Adjusted R-squared:  0.6825 
+F-statistic: 22.07 on 5 and 44 DF,  p-value: 5.35e-11
+
+According to our results, vehicle length and ground clearance (as well as intercept) are statistically unlikely to provide random amounts of variance to the linear model. In other words the vehicle length and ground clearance have a significant impact on miles per gallon. 
+
+Our Pearson correlation coefficient's r-value was 0.71, which means there is a strong positive correlation between our variables. In addition, the p-value of our linear regression analysis is 5.35 x 10-11, which is much smaller than our assumed significance level of 0.05%. Therefore, we can state that there is sufficient evidence to reject our null hypothesis, which means that the slope of our linear model is not zero.
+
+The results further supports that the linear model predicts mpg of MechaCar prototypes. This is evident when we look at the linear model for vehicle length and ground clearance below.
+
+> summary(lm(mpg ~ vehicle.length + ground.clearance, data = mechacar_mpg))
+
+Call:
+lm(formula = mpg ~ vehicle.length + ground.clearance, data = mechacar_mpg)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-17.493  -7.705   1.344   6.642  18.500 
+
+Coefficients:
+                 Estimate Std. Error t value Pr(>|t|)    
+(Intercept)      -91.5573    13.9649  -6.556 3.86e-08 ***
+vehicle.length     6.0811     0.6732   9.033 7.68e-12 ***
+ground.clearance   3.5669     0.5401   6.604 3.26e-08 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 9.078 on 47 degrees of freedom
+Multiple R-squared:  0.674,	Adjusted R-squared:  0.6601 
+F-statistic: 48.59 on 2 and 47 DF,  p-value: 3.637e-12
+
+Our Pearson correlation coefficient's r-value was 0.67, which means there is a strong positive correlation between our variables. In addition, the p-value of our linear regression analysis is 3.637 x 10-12, which is much smaller than our assumed significance level of 0.05%. Therefore, we can state that there is sufficient evidence to reject our null hypothesis, which means that the slope of our linear model is not zero.
+
+As well, the Estimates show that there is a strong correlation between the variables and their low Pr(>|t|) shows that they are statistically unlikely to provide random amounts of variance to the linear model.
+
+As a result, these shows a strong argument that vehicle length and ground clearance strongly affects mpg.
+
+
+2. ---------- SUSPENSION COIL SUMMARY ----------
+
+The design specifications for the MechaCar suspension coils dictate that the variance of the suspension coils must not exceed 100 pounds per inch.
+
+> # Generate summary statistics
+> summary(suspension_coil)
+  VehicleID         Manufacturing_Lot       PSI      
+ Length:150         Length:150         Min.   :1452  
+ Class :character   Class :character   1st Qu.:1498  
+ Mode  :character   Mode  :character   Median :1500  
+                                       Mean   :1499  
+                                       3rd Qu.:1501  
+                                       Max.   :1542  
+
+> # Calculate the standard deviation
+> standard_deviation <- sd(suspension_coil$PSI)
+> print(standard_deviation)
+[1] 7.892627
+
+> # Calculate the variance
+> variance <- standard_deviation ** 2
+> print(variance)
+[1] 62.29356
+
+After calculating the statistics for the suspension coil data, we are able to see that the variance is 62 and does not exceed the 100 pounds-per-inch design specifications. This means that the PSI will vary between 0 - 62 from the mean, which is 1499. When we subtract the difference between the min and max from the mean, it is below 62.
+
+3. ---------- SUSPENSION COIL T-TEST ----------
+
+> t.test(suspension_coil$PSI, mu = 1500)
+
+	One Sample t-test
+
+data:  suspension_coil$PSI
+t = -1.8931, df = 149, p-value = 0.06028
+alternative hypothesis: true mean is not equal to 1500
+95 percent confidence interval:
+ 1497.507 1500.053
+sample estimates:
+mean of x 
+  1498.78 
+  
+If we assume the data is our sample data, our p-value is slightly above our significance level. Therefore, we do not have sufficient evidence to reject the null hypothesis, and we would state that the two means are statistically similar.
+
+> t.test(subset(suspension_coil,Manufacturing_Lot=="Lot1")$PSI,mu = 1500)
+
+	One Sample t-test
+
+data:  subset(suspension_coil, Manufacturing_Lot == "Lot1")$PSI
+t = 0, df = 49, p-value = 1
+alternative hypothesis: true mean is not equal to 1500
+95 percent confidence interval:
+ 1499.719 1500.281
+sample estimates:
+mean of x 
+     1500 
+
+> t.test(subset(suspension_coil,Manufacturing_Lot=="Lot2")$PSI,mu = 1500)
+
+	One Sample t-test
+
+data:  subset(suspension_coil, Manufacturing_Lot == "Lot2")$PSI
+t = 0.51745, df = 49, p-value = 0.6072
+alternative hypothesis: true mean is not equal to 1500
+95 percent confidence interval:
+ 1499.423 1500.977
+sample estimates:
+mean of x 
+   1500.2 
+
+> t.test(subset(suspension_coil,Manufacturing_Lot=="Lot3")$PSI,mu = 1500)
+
+	One Sample t-test
+
+data:  subset(suspension_coil, Manufacturing_Lot == "Lot3")$PSI
+t = -2.0916, df = 49, p-value = 0.04168
+alternative hypothesis: true mean is not equal to 1500
+95 percent confidence interval:
+ 1492.431 1499.849
+sample estimates:
+mean of x 
+  1496.14 
+
+However, if we take a deeper look and break down the t-test by lot number, we see that the p-value of Lot 3 is less than our common 0.05 percent as opposed Lot 1 and Lot 2, who have a p-value of 1 and 0.6 respectively. This mean that Lot 3 is statistically significant. It indicates strong evidence against the null hypothesis, as there is less than a 5% probability the null is correct (and the results are random). Therefore, we reject the null hypothesis, and accept the alternative hypothesis.
+
+4. ---------- DESIGN YOUR OWN STUDY ----------
+
+Upper management is looking to compare the performance of the MechaCar prototype vehicle to other comparable vehicles on the market. To determine how two vehicles compare to each other, we will use customer reviews of the vehicle to measure customer satisfaction. 
+
+A few metrics that may be of interest to a consumer would be the following:
+
+  - Cost of the vehicle
+  - Fuel type and fuel efficiency
+  
+This study will attempt to answer the following questions:
+
+  1. Is there a correlation between the cost of the vehicle and customer satisfaction and review?
+  2. Is there a correlation between the fuel type and fuel efficiency to customer satisfaction and review?
+  
+The null and alternative hypothesis would be the following:
+
+  Null Hypothesis: The slope of the linear model is zero, or m equals 0
+
+  Alternative Hypothesis : The slope of the linear model is not zero, or m does not equal 0
+  
+To test out the hypotheses, we will look at the correlation between the two variables. Correlation is quantified by calculating a correlation coefficient, and the most common correlation coefficient is the Pearson correlation coefficient.
+
+The Pearson correlation coefficient is denoted as "r" in mathematics and is used to quantify a linear relationship between two numeric variables. The Pearson correlation coefficient ranges between -1 and 1, depending on the direction of the linear relationship. Depending on their r-values, we will be able to tell if there is a positive or negative correlation between cost and customer satisfaction and fuel type/efficiency to customer satisfaction.
+
+In order to test our study, the following data is needed:
+
+  - Mechacar prototype data, including projected cost of the vehicle, fuel type and fuel efficiency
+  - Customer satisfaction and review on all types of vehicles
+  - Competitor vehicle data, including their cost, fuel type and fuel efficiency
+  
